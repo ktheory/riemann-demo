@@ -19,3 +19,12 @@ RUN cd /tmp && \
 RUN apt-get install -y zlib1g-dev
 RUN ruby-switch --set ruby2.2
 RUN gem install --no-ri --no-rdoc riemann-client riemann-tools riemann-dash
+
+# Ruby app
+RUN mkdir /app && gem install bundle --no-ri --no-rdoc
+WORKDIR /app
+ADD Gemfile Gemfile.lock /app/
+RUN bundle install
+
+ADD riemann.config /etc/riemann/
+ADD . /app/

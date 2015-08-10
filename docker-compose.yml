@@ -1,0 +1,12 @@
+riemann:
+  build: .
+  command: riemann /etc/riemann/riemann.config
+  ports:
+    - "5555:5555"
+sinatra:
+  build: .
+  links:
+    - riemann
+  command: bin/rackup
+  ports:
+    - "9292:8000"
